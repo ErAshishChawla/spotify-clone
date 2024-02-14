@@ -25,11 +25,11 @@ export default function RootLayout({
             className="w-screen h-screen bg-black p-2
           grid grid-cols-1 md:grid-cols-[300px_1fr] grid-rows-1 gap-x-2"
           >
-            <aside>
+            <aside className="hidden md:flex ">
               <Sidebar />
             </aside>
 
-            <section className="p-2 bg-neutral-900/90 rounded-md">
+            <section className="p-2 bg-neutral-900/90 rounded-md overflow-y-auto">
               {children}
             </section>
           </main>
