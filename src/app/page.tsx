@@ -1,9 +1,11 @@
-import Image from "next/image";
+"use client";
+
+import Header from "@/components/header";
 
 export default function Home() {
   return (
     <div className="text-white">
-      <div>Header</div>
+      <Header />
       <div>Playlists</div>
     </div>
   );

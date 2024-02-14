@@ -29,7 +29,7 @@ export default function RootLayout({
               <Sidebar />
             </aside>
 
-            <section className="p-2 bg-neutral-900/90 rounded-md overflow-y-auto">
+            <section className=" bg-neutral-900/90 rounded-md overflow-y-auto">
               {children}
             </section>
           </main>

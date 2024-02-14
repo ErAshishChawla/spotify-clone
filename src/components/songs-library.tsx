@@ -8,7 +8,7 @@ function SongsLibrary() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center text-white/70 hover:text-white transition cursor-pointer">
           <TbPlaylist size={26} />
           <p className="truncate text-sm">Your Library</p>
         </div>

@@ -3,14 +3,13 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 import { FaSpotify } from "react-icons/fa6";
 import { GrHomeRounded } from "react-icons/gr";
 import { IoSearch } from "react-icons/io5";
 
 import { paths } from "@/paths";
-
-import useTwMerge from "@/hooks/useTwMerge";
 
 function Navigation() {
   const pathname = usePathname();
@@ -44,7 +43,7 @@ function Navigation() {
           <Link
             key={route.href}
             href={route.href}
-            className={useTwMerge(
+            className={clsx(
               "flex items-center gap-6 text-white hover:text-white transition",
               {
                 "text-white/70": !route.isActive,
