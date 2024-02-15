@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import NextUiProvider from "@/providers/next-ui-provider";
-import Sidebar from "@/components/sidebar";
+import ToastProvider from "@/providers/toast-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,22 +18,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className} suppressHydrationWarning>
-        <NextUiProvider>
-          <main
-            className="w-screen h-screen bg-black p-2
-          grid grid-cols-1 md:grid-cols-[300px_1fr] grid-rows-1 gap-x-2"
-          >
-            <aside className="hidden md:flex ">
-              <Sidebar />
-            </aside>
-
-            <section className=" bg-neutral-900/90 rounded-md overflow-y-auto">
-              {children}
-            </section>
-          </main>
-        </NextUiProvider>
+    <html lang="en" className="dark">
+      <body className={inter.className}>
+        <NextUiProvider>{children}</NextUiProvider>
+        <ToastProvider />
       </body>
     </html>
   );
