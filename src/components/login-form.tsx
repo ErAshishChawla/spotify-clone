@@ -23,7 +23,7 @@ function LoginForm() {
       router.replace("/");
       toast.success(formState.successMessage);
     }
-  }, [formState.status]);
+  }, [formState.status, router, formState.successMessage]);
 
   return (
     <form
@@ -39,6 +39,7 @@ function LoginForm() {
         radius="sm"
         isInvalid={!!formState.errors.email}
         errorMessage={formState.errors.email?.join(", ")}
+        isRequired
       />
       <Input
         name="password"
@@ -49,6 +50,7 @@ function LoginForm() {
         radius="sm"
         isInvalid={!!formState.errors.password}
         errorMessage={formState.errors.password?.join(", ")}
+        isRequired
       />
       {formState.errors._form ? (
         <p className="text-sm bg-red-600 text-white p-2 border border-red-400 rounded-md w-full">

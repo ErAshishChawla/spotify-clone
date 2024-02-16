@@ -24,7 +24,7 @@ function LoginPage() {
           <Divider className="flex-1 bg-neutral-500/70" />
         </div>
         <p className="text-neutral-400 text-sm text-center">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href={paths.signup()} className="text-white underline">
             Sign up for Spotify
           </Link>

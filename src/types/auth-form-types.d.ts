@@ -40,3 +40,15 @@ export type oAuthResponseType = {
     _form?: string[];
   };
 };
+
+export type songUploadResponseType = {
+  status: "success" | "error" | "idle";
+  successMessage?: string;
+  errors: {
+    songTitle?: string[];
+    songAuthor?: string[];
+    songFile?: string[];
+    songImage?: string[];
+    _form?: string[];
+  };
+};

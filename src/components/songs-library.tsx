@@ -1,8 +1,9 @@
-import { Button } from "@nextui-org/react";
 import React from "react";
 
-import { IoAdd } from "react-icons/io5";
 import { TbPlaylist } from "react-icons/tb";
+
+import UserSongList from "@/components/user-song-list";
+import UploadSongButton from "@/components/upload-song-button";
 
 function SongsLibrary() {
   return (
@@ -12,11 +13,11 @@ function SongsLibrary() {
           <TbPlaylist size={26} />
           <p className="truncate text-sm">Your Library</p>
         </div>
-        <button className=" text-white/70 hover:text-white rounded-full p-0.5 hover:bg-white/10 transition">
-          <IoAdd size={26} />
-        </button>
+        <UploadSongButton />
       </div>
-      <div>Songs list</div>
+      <div className="flex-1 flex-col flex">
+        <UserSongList />
+      </div>
     </div>
   );
 }

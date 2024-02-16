@@ -32,6 +32,39 @@ export type Database = {
           }
         ]
       }
+      liked_songs: {
+        Row: {
+          created_at: string
+          song_id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          song_id: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          song_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "liked_songs_song_id_fkey"
+            columns: ["song_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "liked_songs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       prices: {
         Row: {
           active: boolean | null
@@ -108,6 +141,44 @@ export type Database = {
           name?: string | null
         }
         Relationships: []
+      }
+      songs: {
+        Row: {
+          author: string | null
+          created_at: string
+          id: number
+          image_path: string | null
+          song_path: string | null
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          author?: string | null
+          created_at?: string
+          id?: number
+          image_path?: string | null
+          song_path?: string | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          author?: string | null
+          created_at?: string
+          id?: number
+          image_path?: string | null
+          song_path?: string | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "songs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       subscriptions: {
         Row: {

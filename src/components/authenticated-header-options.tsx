@@ -30,7 +30,12 @@ function AuthenticatedHeaderOptions({ src }: { src: string }) {
       router.replace(paths.login());
       toast.success(formState.successMessage);
     }
-  }, [formState.status]);
+  }, [
+    formState.status,
+    router,
+    formState.successMessage,
+    formState.errors._form,
+  ]);
 
   return (
     <>

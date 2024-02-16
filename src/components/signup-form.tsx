@@ -31,9 +31,8 @@ function SignupForm() {
 
   const onSubmit = async (data: signupFormType) => {
     const formResponse = await signup(data);
-    console.log(formResponse);
+
     if (formResponse.status === "error") {
-      // handle error
       setError("email", { message: formResponse.errors.email?.join(", ") });
       setError("password", {
         message: formResponse.errors.password?.join(", "),
@@ -43,7 +42,6 @@ function SignupForm() {
     }
 
     if (formResponse.status === "success") {
-      // handle success
       toast.success(formResponse.successMessage);
       reset();
       setTimeout(() => {
@@ -66,6 +64,7 @@ function SignupForm() {
         {...register("email")}
         isInvalid={!!errors.email}
         errorMessage={errors.email?.message}
+        isRequired
       />
       <Input
         type="password"
@@ -76,6 +75,7 @@ function SignupForm() {
         {...register("password")}
         isInvalid={!!errors.password}
         errorMessage={errors.password?.message}
+        isRequired
       />
       {errors.root ? (
         <p className="text-sm bg-red-600 text-white p-2 border border-red-400 rounded-md w-full">

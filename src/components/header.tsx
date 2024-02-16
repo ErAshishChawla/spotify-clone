@@ -1,13 +1,14 @@
 import React from "react";
 import { cookies } from "next/headers";
-import { createClient } from "@/lib/supabase/server";
 
 import AppNavigation from "@/components/app-navigation";
-import UnauthenicatedHeaderOptions from "./unauthenticated-header-options";
+import UnauthenicatedHeaderOptions from "@/components/unauthenticated-header-options";
+import AuthenticatedHeaderOptions from "@/components/authenticated-header-options";
+import SongSearchBar from "@/components/song-search-bar";
 
 import { Navbar, NavbarContent } from "@nextui-org/react";
 
-import AuthenticatedHeaderOptions from "./authenticated-header-options";
+import { createClient } from "@/lib/supabase/server";
 
 async function Header() {
   const cookieStore = cookies();

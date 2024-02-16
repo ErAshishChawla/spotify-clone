@@ -23,6 +23,9 @@ const paths = {
   oAuthCallback() {
     return "http://localhost:3000/auth/callback";
   },
+  liked() {
+    return "/liked";
+  },
 };
 
 export { paths };

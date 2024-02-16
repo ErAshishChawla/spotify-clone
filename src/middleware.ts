@@ -9,6 +9,7 @@ export async function middleware(request: NextRequest) {
       headers: request.headers,
     },
   });
+
   const nextUrl = request.nextUrl;
 
   const supabase = createServerClient(
