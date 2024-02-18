@@ -48,7 +48,14 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       return;
     }
 
-    storeRef.current.setState({ isFetchingUser: true, isReset: false });
+    storeRef.current.setState({
+      isFetchingUser: true,
+      isReset: false,
+      isLoggedIn: false,
+      isSubscribed: false,
+      userData: undefined,
+      subscriptionData: undefined,
+    });
 
     Promise.allSettled([getUser(), getSubscription()]).then((results) => {
       if (!storeRef.current) {
@@ -64,15 +71,17 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
             userData: userDetailsPromise.value.data.user
               ? userDetailsPromise.value.data.user
               : undefined,
-            isLoggedIn: true,
+            isLoggedIn: userDetailsPromise.value.data.user ? true : false,
           };
         });
       }
 
       if (subscriptionPromise.status === "fulfilled") {
         storeRef.current.setState((state) => ({
-          subscriptionData: subscriptionPromise.value.data,
-          isSubscribed: true,
+          subscriptionData: subscriptionPromise.value.data
+            ? subscriptionPromise.value.data
+            : undefined,
+          isSubscribed: subscriptionPromise.value.data ? true : false,
         }));
       }
 
