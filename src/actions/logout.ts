@@ -1,21 +1,17 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { logoutFormResponseType } from "@/types/form-types";
 
-import { logoutFormResponseType } from "@/types/auth-form-types";
+import { getSupabaseClient } from "@/actions/getSupabaseClient";
+
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 import { paths } from "@/paths";
 
-export async function logout(
-  formState: logoutFormResponseType,
-  formData: FormData
-): Promise<logoutFormResponseType> {
-  const cookieStore = cookies();
-  const client = createClient(cookieStore);
-
-  const { error } = await client.auth.signOut();
+export async function logout(): Promise<logoutFormResponseType> {
+  const supabase = getSupabaseClient();
+  const { error } = await supabase.auth.signOut();
 
   if (error) {
     console.log(error);
@@ -28,10 +24,8 @@ export async function logout(
   }
 
   revalidatePath(paths.home());
+  revalidatePath(paths.search());
+  revalidatePath(paths.liked());
 
-  return {
-    status: "success",
-    successMessage: "Logout successful",
-    errors: {},
-  };
+  redirect(paths.home());
 }

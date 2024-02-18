@@ -1,5 +1,6 @@
 import Sidebar from "@/components/sidebar";
 import Header from "@/components/header";
+import Player from "@/components/player";
 
 export default function AppLayout({
   children,
@@ -21,6 +22,7 @@ export default function AppLayout({
           {children}
         </div>
       </section>
+      <Player />
     </main>
   );
 }

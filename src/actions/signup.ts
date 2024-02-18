@@ -5,10 +5,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 import { signupFormSchema } from "@/schemas/signupFormSchema";
-import {
-  signupFormResponseType,
-  signupFormType,
-} from "@/types/auth-form-types";
+import { signupFormResponseType, signupFormType } from "@/types/form-types";
 
 export async function signup(
   formData: signupFormType

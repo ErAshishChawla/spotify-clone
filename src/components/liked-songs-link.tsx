@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FaPlay } from "react-icons/fa";
+
 import { paths } from "@/paths";
 
 function LikedSongsLink() {

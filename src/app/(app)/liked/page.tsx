@@ -1,4 +1,4 @@
-import { getLikedSongs } from "@/actions/getLikedSongs";
+import { getLikedSongs } from "@/actions/userLoggedIn/getLikedSongs";
 import SearchContent from "@/components/search-content";
 import Image from "next/image";
 import React from "react";

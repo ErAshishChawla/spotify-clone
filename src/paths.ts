@@ -11,6 +11,9 @@ const paths = {
   signup() {
     return "/signup";
   },
+  public() {
+    return [this.home(), this.search()];
+  },
   defaultInvalidUserRedirect() {
     return "/login";
   },

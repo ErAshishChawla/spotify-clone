@@ -10,6 +10,7 @@ interface SongsGridProps {
 
 async function SongsGrid({ fetch }: SongsGridProps) {
   const songs = await fetch();
+
   if (!songs) {
     return <div className="mt-4 text-neutral-400">No songs found!</div>;
   }

@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 import { paths } from "@/paths";
 
 import { createClient } from "@/lib/supabase/server";
-import { oAuthResponseType } from "@/types/auth-form-types";
+import { oAuthResponseType } from "@/types/form-types";
+import { revalidatePath } from "next/cache";
 
 export async function oAuthLogin(
   formState: oAuthResponseType,
@@ -32,5 +33,6 @@ export async function oAuthLogin(
     };
   }
 
+  revalidatePath(paths.home());
   redirect(data.url);
 }

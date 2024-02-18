@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { nanoid } from "nanoid";
 
-import { songUploadResponseType } from "@/types/auth-form-types";
+import { songUploadResponseType } from "@/types/form-types";
 import { uploadSongFormSchema } from "@/schemas/uploadSongFormSchema";
 import { revalidatePath } from "next/cache";
 

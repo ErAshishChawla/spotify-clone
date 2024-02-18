@@ -71,8 +71,13 @@ export async function middleware(request: NextRequest) {
     paths.supabaseAuthPrefix()
   );
   const isAuthRoute = paths.auth().includes(nextUrl.pathname);
+  const isPublicRoute = paths.public().includes(nextUrl.pathname);
 
   if (isSupabaseAuthRoute) {
+    return response;
+  }
+
+  if (isPublicRoute) {
     return response;
   }
 

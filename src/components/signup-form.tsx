@@ -11,7 +11,9 @@ import { Input, Button } from "@nextui-org/react";
 import { signup } from "@/actions/signup";
 
 import { signupFormSchema } from "@/schemas/signupFormSchema";
-import { signupFormType } from "@/types/auth-form-types";
+import { signupFormType } from "@/types/form-types";
+
+import { paths } from "@/paths";
 
 function SignupForm() {
   const {
@@ -45,7 +47,7 @@ function SignupForm() {
       toast.success(formResponse.successMessage);
       reset();
       setTimeout(() => {
-        router.replace("/auth/login");
+        router.replace(paths.login());
       }, 1000);
     }
   };

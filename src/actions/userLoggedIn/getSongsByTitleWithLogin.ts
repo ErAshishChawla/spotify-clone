@@ -1,47 +1,49 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 import { createClient } from "@/lib/supabase/server";
+import { getSongsWithLogin } from "@/actions/userLoggedIn/getSongsWithLogin";
+
+import { paths } from "@/paths";
 
 import { Song } from "@/types/types";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
-export async function getLikedSongs(): Promise<Song[] | null> {
+export async function getSongsByTitleWithLogin(
+  title: string
+): Promise<Song[] | null> {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (userError || !userData.user) {
-    redirect("/auth/login");
+    redirect(paths.defaultInvalidUserRedirect());
+  }
+
+  if (!title) {
+    return getSongsWithLogin();
   }
 
   const { data: songsData, error: songsError } = await supabase
-    .from("liked_songs")
-    .select("*,songs(*)")
-    .eq("user_id", userData.user.id)
-    .order("created_at", { ascending: false });
+    .rpc("get_all_songs_with_user_liked_status", {
+      input_user_id: userData.user?.id,
+    })
+    .ilike("title", `%${title}%`);
+  console.log(songsData);
 
   if (songsError || songsData.length === 0) {
     return null;
   }
 
-  const likedSongData = songsData.map((items) => {
-    return { ...items.songs };
-  });
-
-  const modifiedSongsData: Song[] = likedSongData.map((song) => {
+  const modifiedSongsData: Song[] = songsData.map((song: Song) => {
     return {
       ...song,
       image_public_path: supabase.storage
         .from("images")
         .getPublicUrl(song.image_path).data.publicUrl,
-      isLiked: true,
     };
   });
-
-  //   revalidatePath("/");
-
   return modifiedSongsData;
 }

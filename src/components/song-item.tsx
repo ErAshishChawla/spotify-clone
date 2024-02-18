@@ -28,6 +28,7 @@ function SongItem({ song }: SongItemProps) {
           By {song.author}
         </p>
       </div>
+
       <div className="absolute bottom-24 right-5">
         <PlayButton />
       </div>

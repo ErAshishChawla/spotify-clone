@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import { TbPlaylist } from "react-icons/tb";
+import { Skeleton } from "@nextui-org/react";
 
 import UserSongList from "@/components/user-song-list";
 import UploadSongButton from "@/components/upload-song-button";
@@ -16,7 +17,9 @@ function SongsLibrary() {
         <UploadSongButton />
       </div>
       <div className="flex-1 flex-col flex">
-        <UserSongList />
+        <Suspense fallback={<div>Loading...</div>}>
+          <UserSongList />
+        </Suspense>
       </div>
     </div>
   );

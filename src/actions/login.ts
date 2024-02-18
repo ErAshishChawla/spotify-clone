@@ -2,13 +2,13 @@
 
 import { cookies } from "next/headers";
 
-import { loginFormResponseType } from "@/types/auth-form-types";
+import { loginFormResponseType } from "@/types/form-types";
 import { loginFormSchema } from "@/schemas/loginFormSchema";
 
 import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
 
-import { paths } from "@/paths";
+import { revalidateApp } from "@/actions/revalidateApp";
+import { useUserStore } from "@/providers/user-store-provider";
 
 export async function login(
   formState: loginFormResponseType,
@@ -43,7 +43,7 @@ export async function login(
     };
   }
 
-  revalidatePath(paths.home());
+  await revalidateApp();
 
   return {
     status: "success",

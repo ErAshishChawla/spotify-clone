@@ -1,101 +1,57 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
-import { createClient } from "@/lib/supabase/client";
-
-import { paths } from "@/paths";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { revalidatePath } from "next/cache";
+
+import { toggleSongLike } from "@/actions/userLoggedIn/toggleSongLike";
+
+import { Song } from "@/types/types";
+import { songLikeResponseType } from "@/types/form-types";
+import FormSubmitButton from "./form-submit-button";
 
 interface LikeButtonProps {
-  songId: string;
+  song: Song;
 }
 
-function LikeButton({ songId }: LikeButtonProps) {
-  const [isLiked, setIsLiked] = useState(false);
-  const router = useRouter();
-  const supabase = createClient();
-
-  useEffect(() => {
-    async function checkIsLiked() {
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-
-      if (userError || !userData.user) {
-        return;
-      }
-
-      const { data: likeData, error: likeError } = await supabase
-        .from("liked_songs")
-        .select("*")
-        .eq("user_id", userData.user.id)
-        .eq("song_id", songId);
-
-      if (!likeError && likeData.length > 0) {
-        setIsLiked(true);
-      }
-
-      return;
-    }
-
-    checkIsLiked();
-  }, [songId, isLiked]);
-
-  const handleLike = async () => {
-    const { data: userData, error: userError } = await supabase.auth.getUser();
-
-    if (userError || !userData.user) {
-      toast.error("You must be logged in to like a song");
-      router.replace(paths.defaultInvalidUserRedirect());
-      return;
-    }
-
-    if (isLiked) {
-      const { error } = await supabase
-        .from("liked_songs")
-        .delete()
-        .eq("user_id", userData.user.id)
-        .eq("song_id", songId);
-
-      if (error) {
-        toast.error("Failed to unlike song");
-        setIsLiked(true);
-        return;
-      }
-
-      setIsLiked(false);
-    } else {
-      const { error } = await supabase.from("liked_songs").insert([
-        {
-          user_id: userData.user.id,
-          song_id: songId,
-        },
-      ]);
-
-      if (error) {
-        toast.error("Failed to like song");
-        setIsLiked(false);
-        return;
-      }
-      setIsLiked(true);
-    }
-    return router.refresh();
-  };
+function LikeButton({ song }: LikeButtonProps) {
+  const isLiked = song.isliked || false;
 
   const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
+  const [formState, toggleSongLikeAction] = useFormState<songLikeResponseType>(
+    toggleSongLike.bind(null, song.id).bind(null, isLiked),
+    {
+      status: "idle",
+      successMessage: "",
+      errors: {
+        _form: [],
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (formState.status === "success") {
+      toast.success(formState.successMessage);
+    } else if (formState.status === "error") {
+      if (formState.errors?._form) {
+        toast.error(formState.errors?._form[0]);
+      } else {
+        toast.error("An error occurred while liking the song");
+      }
+    }
+  }, [formState, isLiked]);
+
   return (
-    <form>
-      <button
+    <form action={toggleSongLikeAction}>
+      <FormSubmitButton
         type="submit"
-        className="hover:opacity-75 transition"
-        onClick={handleLike}
+        className="hover:opacity-75 transition p-0 min-w-fit bg-transparent"
       >
         <Icon color={isLiked ? "#22c55e" : "white"} size={25} />
-      </button>
+      </FormSubmitButton>
     </form>
   );
 }
