@@ -64,7 +64,7 @@ function useGetSongById(id?: string) {
     };
 
     fetchSong();
-  }, [id, supabase, song?.song_path, song?.image_path]);
+  }, [id, supabase]);
 
   return useMemo(() => {
     return {
