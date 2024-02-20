@@ -1,6 +1,6 @@
 import React from "react";
 
-import MediaRowItem from "@/components/media-row-item";
+import MediaRowItem from "@/components/app-view-colums/media-row-item";
 
 import { getUserSongs } from "@/actions/userLoggedIn/getUserSongs";
 import { getUser } from "@/actions/getUser";

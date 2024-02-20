@@ -26,14 +26,5 @@ export async function getUserSongs(): Promise<Song[] | null> {
     return null;
   }
 
-  const modifiedSongsData: Song[] = songsData.map((song) => {
-    return {
-      ...song,
-      image_public_path: supabase.storage
-        .from("images")
-        .getPublicUrl(song.image_path).data.publicUrl,
-    };
-  });
-
-  return modifiedSongsData;
+  return songsData;
 }

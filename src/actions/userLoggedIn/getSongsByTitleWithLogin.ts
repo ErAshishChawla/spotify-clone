@@ -31,19 +31,10 @@ export async function getSongsByTitleWithLogin(
       input_user_id: userData.user?.id,
     })
     .ilike("title", `%${title}%`);
-  console.log(songsData);
 
   if (songsError || songsData.length === 0) {
     return null;
   }
 
-  const modifiedSongsData: Song[] = songsData.map((song: Song) => {
-    return {
-      ...song,
-      image_public_path: supabase.storage
-        .from("images")
-        .getPublicUrl(song.image_path).data.publicUrl,
-    };
-  });
-  return modifiedSongsData;
+  return songsData;
 }

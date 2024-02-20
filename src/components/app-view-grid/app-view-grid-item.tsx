@@ -11,7 +11,7 @@ import { Song } from "@/types/types";
 
 interface AppViewGridItemProps {
   song: Song;
-  // onClick: () => Promise<void>;
+  onClick: () => Promise<void>;
 }
 
 function AppViewGridItem({ song }: AppViewGridItemProps) {

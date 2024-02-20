@@ -1,7 +1,9 @@
-import { getLikedSongs } from "@/actions/userLoggedIn/getLikedSongs";
-import SearchContent from "@/components/media-row-item-with-like";
 import Image from "next/image";
 import React from "react";
+
+import AppViewColumn from "@/components/app-view-colums/app-view-column";
+
+import { getLikedSongs } from "@/actions/userLoggedIn/getLikedSongs";
 
 function LikedPage() {
   return (
@@ -22,7 +24,7 @@ function LikedPage() {
           </h1>
         </div>
       </div>
-      <SearchContent fetch={() => getLikedSongs()} />
+      <AppViewColumn fetch={() => getLikedSongs()} />
     </div>
   );
 }

@@ -56,7 +56,5 @@ export type songUploadResponseType = {
 export type songLikeResponseType = {
   status: "success" | "error" | "idle";
   successMessage?: string;
-  errors: {
-    _form?: string[];
-  };
+  errorMessage?: string;
 };
