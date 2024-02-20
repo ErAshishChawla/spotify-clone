@@ -7,8 +7,6 @@ export interface Song {
   title: string;
   song_path: string;
   image_path: string;
-  song_public_path?: string;
-  image_public_path?: string;
   isliked?: boolean;
 }
 

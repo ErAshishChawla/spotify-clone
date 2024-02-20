@@ -1,12 +1,11 @@
-import React, { Suspense } from "react";
+import React from "react";
 
 import { TbPlaylist } from "react-icons/tb";
-import { Skeleton } from "@nextui-org/react";
 
-import UserSongList from "@/components/user-song-list";
+import UserSongList from "@/components/sidebar/user-song-list";
 import UploadSongButton from "@/components/upload-song-button";
 
-function SongsLibrary() {
+function SidebarSongsLibrary() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex justify-between items-center">
@@ -17,12 +16,10 @@ function SongsLibrary() {
         <UploadSongButton />
       </div>
       <div className="flex-1 flex-col flex">
-        <Suspense fallback={<div>Loading...</div>}>
-          <UserSongList />
-        </Suspense>
+        <UserSongList />
       </div>
     </div>
   );
 }
 
-export default SongsLibrary;
+export default SidebarSongsLibrary;

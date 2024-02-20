@@ -1,6 +1,6 @@
-import React, { Suspense } from "react";
+import React from "react";
 
-import UserSongListItem from "@/components/user-song-list-item";
+import MediaRowItem from "@/components/media-item";
 
 import { getUserSongs } from "@/actions/userLoggedIn/getUserSongs";
 import { getUser } from "@/actions/getUser";
@@ -23,7 +23,7 @@ async function UserSongList() {
       );
     } else {
       content = userSongs.map((song) => {
-        return <UserSongListItem key={song.id} song={song} />;
+        return <MediaRowItem key={song.id} song={song} />;
       });
     }
   }

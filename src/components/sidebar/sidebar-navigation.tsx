@@ -11,7 +11,7 @@ import { IoSearch } from "react-icons/io5";
 
 import { paths } from "@/paths";
 
-function Navigation() {
+function SidebarNavigation() {
   const pathname = usePathname();
 
   const routes = useMemo(() => {
@@ -59,4 +59,4 @@ function Navigation() {
   );
 }
 
-export default Navigation;
+export default SidebarNavigation;

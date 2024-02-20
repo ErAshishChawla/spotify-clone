@@ -57,13 +57,16 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       subscriptionData: undefined,
     });
 
-    Promise.allSettled([getUser(), getSubscription()]).then((results) => {
+    Promise.allSettled([
+      getUser(),
+      // , getSubscription()
+    ]).then((results) => {
       if (!storeRef.current) {
         return;
       }
 
       const userDetailsPromise = results[0];
-      const subscriptionPromise = results[1];
+      // const subscriptionPromise = results[1];
 
       if (userDetailsPromise.status === "fulfilled") {
         storeRef.current.setState((state) => {
@@ -76,14 +79,14 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
         });
       }
 
-      if (subscriptionPromise.status === "fulfilled") {
-        storeRef.current.setState((state) => ({
-          subscriptionData: subscriptionPromise.value.data
-            ? subscriptionPromise.value.data
-            : undefined,
-          isSubscribed: subscriptionPromise.value.data ? true : false,
-        }));
-      }
+      // if (subscriptionPromise.status === "fulfilled") {
+      //   storeRef.current.setState((state) => ({
+      //     subscriptionData: subscriptionPromise.value.data
+      //       ? subscriptionPromise.value.data
+      //       : undefined,
+      //     isSubscribed: subscriptionPromise.value.data ? true : false,
+      //   }));
+      // }
 
       storeRef.current.setState((state) => ({
         isFetchingUser: false,
@@ -100,7 +103,6 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
     authChange();
 
     const { data: subscriptionObj } = supabase.auth.onAuthStateChange(() => {
-      console.log("authChange");
       authChange();
     });
 
