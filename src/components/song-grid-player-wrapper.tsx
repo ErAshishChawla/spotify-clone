@@ -5,7 +5,7 @@ import React from "react";
 import { Song } from "@/types/types";
 import { useOnPlay } from "@/hooks/useSongPlay";
 
-import SongItem from "@/components/song-item";
+import SongItem from "@/components/app-view-grid/app-view-grid-item";
 
 interface SongGridPlayerWrapperProps {
   songs: Song[];

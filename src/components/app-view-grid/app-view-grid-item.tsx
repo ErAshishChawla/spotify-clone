@@ -3,25 +3,29 @@
 import React from "react";
 import Image from "next/image";
 
-import PlayButton from "@/components/play-button";
+import PlayButton from "@/components/app-view-grid/play-button";
+
+import { useGetImagePath } from "@/hooks/useGetImagePath";
 
 import { Song } from "@/types/types";
 
-interface SongItemProps {
+interface AppViewGridItemProps {
   song: Song;
-  onClick: () => Promise<void>;
+  // onClick: () => Promise<void>;
 }
 
-function SongItem({ song, onClick }: SongItemProps) {
+function AppViewGridItem({ song }: AppViewGridItemProps) {
+  const imagePublicUrl = useGetImagePath(song);
+
   return (
     <div
       className="relative group flex flex-col items-center justify-center rounded-md overflow-hidden gap-x-4 bg-neutral-400/5 cursor-pointer hover:bg-neutral-400/10 transition p-3"
-      onClick={onClick}
+      // onClick={onClick}
     >
       <div className="relative aspect-square w-full h-full rounded-md overflow-hidden">
         <Image
           className="object-cover"
-          src={song.image_public_path || "/images/liked.png"}
+          src={imagePublicUrl || "/images/liked.png"}
           fill
           alt="song image"
         />
@@ -40,4 +44,4 @@ function SongItem({ song, onClick }: SongItemProps) {
   );
 }
 
-export default SongItem;
+export default AppViewGridItem;

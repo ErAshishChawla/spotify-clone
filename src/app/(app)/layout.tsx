@@ -1,6 +1,6 @@
 import Sidebar from "@/components/sidebar/sidebar";
-import Header from "@/components/header";
-import Player from "@/components/player";
+import Header from "@/components/app-header/header";
+import Player from "@/components/music-player/player";
 
 export default function AppLayout({
   children,
@@ -22,7 +22,7 @@ export default function AppLayout({
           {children}
         </div>
       </section>
-      <Player />
+      {/* <Player /> */}
     </main>
   );
 }

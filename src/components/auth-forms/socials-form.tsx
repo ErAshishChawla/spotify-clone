@@ -6,7 +6,7 @@ import { useFormState } from "react-dom";
 import { useForm } from "react-hook-form";
 
 import { FaGithub } from "react-icons/fa";
-import FormSubmitButton from "./form-submit-button";
+import FormSubmitButton from "../form-submit-button";
 
 import { oAuthLogin } from "@/actions/oAuthLogin";
 import { Button } from "@nextui-org/react";

@@ -1,14 +1,14 @@
 import React from "react";
 
-import SongGridPlayerWrapper from "@/components/song-grid-player-wrapper";
+import AppViewGridItem from "@/components/app-view-grid/app-view-grid-item";
 
 import { Song } from "@/types/types";
 
-interface SongsGridProps {
+interface AppViewGridProps {
   fetch: () => Promise<Song[] | null>;
 }
 
-async function SongsGrid({ fetch }: SongsGridProps) {
+async function AppViewGrid({ fetch }: AppViewGridProps) {
   const songs = await fetch();
 
   if (!songs) {
@@ -17,9 +17,11 @@ async function SongsGrid({ fetch }: SongsGridProps) {
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-4 mt-4">
-      <SongGridPlayerWrapper songs={songs} />
+      {songs.map((song) => {
+        return <AppViewGridItem key={song.id} song={song} />;
+      })}
     </div>
   );
 }
 
-export default SongsGrid;
+export default AppViewGrid;

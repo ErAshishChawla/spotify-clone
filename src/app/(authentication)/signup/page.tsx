@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { Divider } from "@nextui-org/react";
 
-import SignupForm from "@/components/signup-form";
-import SocialsForm from "@/components/socials-form";
+import SignupForm from "@/components/auth-forms/signup-form";
+import SocialsForm from "@/components/auth-forms/socials-form";
 
 import { paths } from "@/paths";
 

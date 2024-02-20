@@ -5,7 +5,7 @@ import React from "react";
 import { usePlayerStore } from "@/providers/player-provider";
 import useGetSongById from "@/hooks/useGetSongById";
 
-import PlayerContent from "@/components/player-content";
+import PlayerContent from "@/components/music-player/player-content";
 
 function Player() {
   const player = usePlayerStore((state) => state);

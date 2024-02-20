@@ -3,10 +3,10 @@ import Link from "next/link";
 
 import { Divider } from "@nextui-org/react";
 
-import SocialsForm from "@/components/socials-form";
+import SocialsForm from "@/components/auth-forms/socials-form";
 
 import { paths } from "@/paths";
-import LoginForm from "@/components/login-form";
+import LoginForm from "@/components/auth-forms/login-form";
 
 function LoginPage() {
   return (

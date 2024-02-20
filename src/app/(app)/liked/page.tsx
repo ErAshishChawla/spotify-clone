@@ -1,5 +1,5 @@
 import { getLikedSongs } from "@/actions/userLoggedIn/getLikedSongs";
-import SearchContent from "@/components/search-content";
+import SearchContent from "@/components/media-row-item-with-like";
 import Image from "next/image";
 import React from "react";
 

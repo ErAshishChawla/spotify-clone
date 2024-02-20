@@ -5,9 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 import { getSongsByTitleWithoutLogin } from "@/actions/userNotLoggedIn/getSongsByTitleWithoutLogin";
 import { getSongsByTitleWithLogin } from "@/actions/userLoggedIn/getSongsByTitleWithLogin";
 
-import SongsGrid from "@/components/songs-grid";
+import SongsGrid from "@/components/app-view-grid/app-view-grid";
 import SongSearchBar from "@/components/song-search-bar";
-import SearchContent from "@/components/search-content";
+import SearchContent from "@/components/media-row-item-with-like";
 
 interface SearchPageProps {
   searchParams: {

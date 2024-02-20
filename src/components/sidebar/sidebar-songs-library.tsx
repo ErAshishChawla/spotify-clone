@@ -3,7 +3,7 @@ import React from "react";
 import { TbPlaylist } from "react-icons/tb";
 
 import UserSongList from "@/components/sidebar/user-song-list";
-import UploadSongButton from "@/components/upload-song-button";
+import UploadSongButton from "@/components/sidebar/upload-song-button";
 
 function SidebarSongsLibrary() {
   return (

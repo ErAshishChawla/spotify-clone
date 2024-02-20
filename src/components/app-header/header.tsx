@@ -2,8 +2,8 @@ import React from "react";
 
 import { Navbar, NavbarContent, Spinner } from "@nextui-org/react";
 
-import AppNavigation from "@/components/app-navigation";
-import AuthHeaderOptions from "@/components/auth-header-options";
+import AppNavigation from "@/components/app-header/app-navigation";
+import AuthHeaderOptions from "@/components/app-header/auth-header-options";
 
 function Header() {
   return (
@@ -12,7 +12,7 @@ function Header() {
       isBordered
       maxWidth="full"
     >
-      <NavbarContent justify="start" className="">
+      <NavbarContent justify="start">
         <AppNavigation />
       </NavbarContent>
       <NavbarContent justify="end">

@@ -1,7 +1,7 @@
 import { Song } from "@/types/types";
 import React from "react";
 
-import UserSongListItem from "@/components/user-song-list-item";
+import MediaRowItem from "@/components/media-row-item";
 import LikeButton from "@/components/like-button";
 
 interface SearchContentProps {
@@ -21,7 +21,7 @@ async function SearchContent({ fetch }: SearchContentProps) {
         return (
           <div key={song.id} className="flex items-center gap-x-4 w-full">
             <div className="flex-1">
-              <UserSongListItem song={song} />
+              <MediaRowItem song={song} />
             </div>
             <LikeButton songId={song.id} />
           </div>

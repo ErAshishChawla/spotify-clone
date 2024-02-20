@@ -14,7 +14,7 @@ import {
   Button,
   ModalFooter,
 } from "@nextui-org/react";
-import FormSubmitButton from "./form-submit-button";
+import FormSubmitButton from "../form-submit-button";
 
 import { useUploadSongModalStore } from "@/stores/useUploadSongModalStore";
 
@@ -60,7 +60,7 @@ export default function UploadSongModal() {
       toast.error(formState.errors._form?.join(", "));
       setTimeout(() => {
         router.replace(paths.login());
-      }, 2000);
+      }, 1000);
       return;
     }
   }, [formState, router, uploadSongModalStore.isOpen]);

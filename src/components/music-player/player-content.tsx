@@ -5,7 +5,7 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 
 import { Song } from "@/types/types";
 import UserSongListItem from "./user-song-list-item";
-import LikeButton from "./like-button";
+import LikeButton from "../like-button";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { Slider } from "@nextui-org/react";
