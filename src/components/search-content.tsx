@@ -23,7 +23,7 @@ async function SearchContent({ fetch }: SearchContentProps) {
             <div className="flex-1">
               <UserSongListItem song={song} />
             </div>
-            <LikeButton song={song} />
+            <LikeButton songId={song.id} />
           </div>
         );
       })}

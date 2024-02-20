@@ -9,9 +9,9 @@ import PlayerContent from "@/components/player-content";
 
 function Player() {
   const player = usePlayerStore((state) => state);
-  console.log("player", player);
+  // console.log("player", player);
   const { song, isLoading } = useGetSongById(player.active_id);
-  console.log("song", song);
+  // console.log("song", song);
 
   if (!song || !player.active_id) {
     return;

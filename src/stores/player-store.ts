@@ -1,7 +1,7 @@
 import { createStore } from "zustand/vanilla";
 
 export type PlayerState = {
-  id: string[];
+  ids: string[];
   active_id?: string;
 };
 
@@ -14,7 +14,7 @@ export type PlayerActions = {
 export type PlayerStore = PlayerState & PlayerActions;
 
 export const defaultInitState: PlayerState = {
-  id: [],
+  ids: [],
   active_id: undefined,
 };
 
@@ -25,7 +25,7 @@ export const createPlayerStore = (
     return {
       ...initState,
       setId: (id: string) => set((state) => ({ active_id: id })),
-      setIds: (ids: string[]) => set((state) => ({ id: ids })),
+      setIds: (ids: string[]) => set((state) => ({ ids: ids })),
       reset: () => set((state) => ({ id: [], active_id: undefined })),
     };
   });
