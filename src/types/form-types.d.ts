@@ -1,9 +1,11 @@
 import { z } from "zod";
 import { loginFormSchema } from "@/schemas/loginFormSchema";
 import { signupFormSchema } from "@/schemas/signupFormSchema";
+import { uploadSongFormSchema } from "@/schemas/uploadSongFormSchema";
 
 export type loginFormType = z.infer<typeof loginFormSchema>;
 export type signupFormType = z.infer<typeof signupFormSchema>;
+export type uploadSongFormType = z.infer<typeof uploadSongFormSchema>;
 
 export type signupFormResponseType = {
   status: "success" | "error" | "idle";

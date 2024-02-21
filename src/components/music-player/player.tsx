@@ -6,20 +6,25 @@ import { usePlayerStore } from "@/providers/player-provider";
 import useGetSongById from "@/hooks/useGetSongById";
 
 import PlayerContent from "@/components/music-player/player-content";
+import { useGetSongPath } from "@/hooks/useGetSongPath";
 
 function Player() {
-  const player = usePlayerStore((state) => state);
-  // console.log("player", player);
-  const { song, isLoading } = useGetSongById(player.active_id);
-  // console.log("song", song);
+  const activeSongId = usePlayerStore((state) => state.activeSongId);
 
-  if (!song || !player.active_id) {
+  const { song, isLoading } = useGetSongById(activeSongId);
+  const songPublicPath = useGetSongPath(song);
+
+  if (!song || !activeSongId || !songPublicPath) {
     return;
   }
 
   return (
-    <div className="fixed bottom-0 bg-black w-full py-2 h-[80px] px-4">
-      <PlayerContent song={song} key={song.song_public_path} />
+    <div className="fixed bottom-0 bg-black w-full py-2 h-[120px] px-4">
+      <PlayerContent
+        song={song}
+        key={songPublicPath}
+        songUrl={songPublicPath}
+      />
     </div>
   );
 }

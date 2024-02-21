@@ -11,16 +11,16 @@ import { Song } from "@/types/types";
 
 interface AppViewGridItemProps {
   song: Song;
-  onClick: () => Promise<void>;
+  onClick: () => void;
 }
 
-function AppViewGridItem({ song }: AppViewGridItemProps) {
+function AppViewGridItem({ song, onClick }: AppViewGridItemProps) {
   const imagePublicUrl = useGetImagePath(song);
 
   return (
     <div
       className="relative group flex flex-col items-center justify-center rounded-md overflow-hidden gap-x-4 bg-neutral-400/5 cursor-pointer hover:bg-neutral-400/10 transition p-3"
-      // onClick={onClick}
+      onClick={onClick}
     >
       <div className="relative aspect-square w-full h-full rounded-md overflow-hidden">
         <Image

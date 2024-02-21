@@ -7,7 +7,7 @@ export interface Song {
   title: string;
   song_path: string;
   image_path: string;
-  isliked?: boolean;
+  is_liked?: boolean;
 }
 
 export interface Product {

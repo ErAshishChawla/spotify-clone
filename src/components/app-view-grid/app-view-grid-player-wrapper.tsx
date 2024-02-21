@@ -3,7 +3,7 @@
 import React from "react";
 
 import AppViewGridItem from "@/components/app-view-grid/app-view-grid-item";
-import { useOnPlay } from "@/hooks/useSongPlay";
+import { useConfigurePlayer } from "@/hooks/useConfigurePlayer";
 
 import { Song } from "@/types/types";
 
@@ -12,15 +12,15 @@ interface AppViewGridPlayerWrapperProps {
 }
 
 function AppViewGridPlayerWrapper({ songs }: AppViewGridPlayerWrapperProps) {
-  const onPlay = useOnPlay(songs);
+  const onSongPlay = useConfigurePlayer(songs);
 
   return songs.map((song) => {
     return (
       <AppViewGridItem
         key={song.id}
         song={song}
-        onClick={async () => {
-          onPlay(song.id);
+        onClick={() => {
+          onSongPlay(song.id);
         }}
       />
     );

@@ -1,77 +1,86 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import useSound from "use-sound";
 
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import { Slider } from "@nextui-org/react";
+
+import MediaRowItem from "@/components/app-view-colums/media-row-item";
+import MediaRowItemWithLike from "@/components/app-view-colums/media-row-item-with-like";
+import LikeButton from "@/components/like-button";
 
 import { Song } from "@/types/types";
-import UserSongListItem from "./user-song-list-item";
-import LikeButton from "../like-button";
-import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
-import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
-import { Slider } from "@nextui-org/react";
+
 import { usePlayerStore } from "@/providers/player-provider";
-import { set } from "zod";
 
 interface PlayerContentProps {
   song: Song;
+  songUrl: string;
 }
 
-function PlayerContent({ song }: PlayerContentProps) {
+function PlayerContent({ song, songUrl }: PlayerContentProps) {
   const player = usePlayerStore((state) => state);
-  const [volume, setVolume] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { allSongIds, volume, isPlaying, activeSongId } = player;
+  const { setActiveSongId, setIsPlaying, setVolume } = player;
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
 
   const onPlayNext = () => {
-    if (player.ids.length === 0) {
+    if (allSongIds.length === 0) {
       return;
     }
 
-    const currentIndex = player.ids.findIndex((id) => id === player.active_id);
-    const nextSong = player.ids[currentIndex + 1];
+    const currentSongIdIndex = allSongIds.findIndex(
+      (id) => id === activeSongId
+    );
+    const nextSongId = allSongIds[currentSongIdIndex + 1];
 
-    if (!nextSong) {
-      return player.setId(player.ids[0]);
+    if (!nextSongId) {
+      return setActiveSongId(allSongIds[0]);
     }
 
-    player.setId(nextSong);
+    setActiveSongId(nextSongId);
   };
 
   const onPlayPrevious = () => {
-    if (player.ids.length === 0) {
+    if (allSongIds.length === 0) {
       return;
     }
 
-    const currentIndex = player.ids.findIndex((id) => id === player.active_id);
-    const previousSong = player.ids[currentIndex - 1];
+    const currentSongIdIndex = allSongIds.findIndex(
+      (id) => id === activeSongId
+    );
+    const previousSongId = allSongIds[currentSongIdIndex - 1];
 
-    if (!previousSong) {
-      return player.setId(player.ids[player.ids.length - 1]);
+    if (!previousSongId) {
+      return setActiveSongId(allSongIds[allSongIds.length - 1]);
     }
 
-    player.setId(previousSong);
+    setActiveSongId(previousSongId);
   };
 
-  const [play, { pause, sound }] = useSound(song.song_public_path, {
+  const [play, { pause, sound }] = useSound(songUrl, {
     volume: volume,
-    onplay: () => setIsPlaying(true),
-    onend: () => {
-      setIsPlaying(false);
-      onPlayNext();
-    },
-    onpause: () => setIsPlaying(false),
+    // onplay: () => setIsPlaying(true),
+    // onend: () => {
+    //   setIsPlaying(false);
+    //   onPlayNext();
+    // },
+    // onpause: () => setIsPlaying(false),
     format: [".mp3"],
   });
 
-  useEffect(() => {
-    sound?.play();
+  // useEffect(() => {
+  //   sound?.play();
 
-    return () => {
-      sound?.unload();
-    };
-  });
+  //   return () => {
+  //     sound?.unload();
+  //   };
+  // });
 
   const handlePlay = () => {
     console.log("ran");
@@ -95,8 +104,8 @@ function PlayerContent({ song }: PlayerContentProps) {
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">
         <div className="flex items-center gap-4">
-          <UserSongListItem song={song} />
-          <LikeButton songId={song.id} />
+          <MediaRowItem song={song} />
+          <LikeButton song={song} />
         </div>
       </div>
       <div className="flex md:hidden col-auto w-full justify-end items-center">
@@ -108,25 +117,27 @@ function PlayerContent({ song }: PlayerContentProps) {
         </div>
       </div>
 
-      <div className="hidden h-full md:flex justify-end items-center w-full max-w-[722px] gap-x-6">
-        <AiFillStepBackward
-          size={30}
-          className="text-neutral-400 hover:text-white transition cursor-pointer"
-          onClick={onPlayPrevious} // Moves to previous song
-        />
+      <div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6 self-center">
+        <button onClick={onPlayPrevious}>
+          <AiFillStepBackward
+            size={30}
+            className="text-neutral-400 hover:text-white transition"
+          />
+        </button>
 
         <div
           className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
-          onClick={handlePlay}
+          onClick={play}
         >
           <Icon size={30} className="text-black" />
         </div>
 
-        <AiFillStepForward
-          size={30}
-          className="text-neutral-400 hover:text-white transition cursor-pointer"
-          onClick={onPlayNext} // Moves to next song
-        />
+        <button onClick={onPlayNext}>
+          <AiFillStepBackward
+            size={30}
+            className="text-neutral-400 hover:text-white transition"
+          />
+        </button>
       </div>
 
       <div className="hidden md:flex justify-end pr-2">

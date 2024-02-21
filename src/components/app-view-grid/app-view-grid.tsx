@@ -6,10 +6,9 @@ import { Song } from "@/types/types";
 
 interface AppViewGridProps {
   fetch: () => Promise<Song[] | null>;
-  onClick: () => void;
 }
 
-async function AppViewGrid({ fetch, onClick }: AppViewGridProps) {
+async function AppViewGrid({ fetch }: AppViewGridProps) {
   const songs = await fetch();
 
   if (!songs) {
@@ -17,10 +16,7 @@ async function AppViewGrid({ fetch, onClick }: AppViewGridProps) {
   }
 
   return (
-    <div
-      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-4 mt-4"
-      onClick={onClick}
-    >
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-4 mt-4">
       <AppViewGridPlayerWrapper songs={songs} />
     </div>
   );

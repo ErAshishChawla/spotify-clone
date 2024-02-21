@@ -53,6 +53,7 @@ export default function UploadSongModal() {
         uploadSongModalStore.onClose();
         router.refresh();
       }, 2000);
+      formState.status = "idle";
       return;
     }
 
@@ -61,6 +62,7 @@ export default function UploadSongModal() {
       setTimeout(() => {
         router.replace(paths.login());
       }, 1000);
+      formState.status = "idle";
       return;
     }
   }, [formState, router, uploadSongModalStore.isOpen]);

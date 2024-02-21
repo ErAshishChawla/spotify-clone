@@ -2,7 +2,11 @@ import { createClient } from "@/lib/supabase/client";
 
 import type { Song } from "@/types/types";
 
-export function useGetSongPath(song: Song) {
+export function useGetSongPath(song?: Song) {
+  if (!song) {
+    return null;
+  }
+
   const supabase = createClient();
 
   const { data: urlData } = supabase.storage

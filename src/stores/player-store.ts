@@ -1,21 +1,27 @@
 import { createStore } from "zustand/vanilla";
 
 export type PlayerState = {
-  ids: string[];
-  active_id?: string;
+  allSongIds: string[];
+  activeSongId?: string;
+  isPlaying: boolean;
+  volume: number;
 };
 
 export type PlayerActions = {
-  setId: (id: string) => void;
-  setIds: (ids: string[]) => void;
+  setActiveSongId: (id: string) => void;
+  setAllSongIds: (ids: string[]) => void;
+  setIsPlaying: (isPlaying: boolean) => void;
+  setVolume: (volume: number) => void;
   reset: () => void;
 };
 
 export type PlayerStore = PlayerState & PlayerActions;
 
 export const defaultInitState: PlayerState = {
-  ids: [],
-  active_id: undefined,
+  allSongIds: [],
+  activeSongId: undefined,
+  isPlaying: false,
+  volume: 1,
 };
 
 export const createPlayerStore = (
@@ -24,9 +30,12 @@ export const createPlayerStore = (
   return createStore<PlayerStore>()((set) => {
     return {
       ...initState,
-      setId: (id: string) => set((state) => ({ active_id: id })),
-      setIds: (ids: string[]) => set((state) => ({ ids: ids })),
-      reset: () => set((state) => ({ id: [], active_id: undefined })),
+      setActiveSongId: (activeSongId: string) =>
+        set((state) => ({ activeSongId })),
+      setAllSongIds: (allSongIds: string[]) => set((state) => ({ allSongIds })),
+      setIsPlaying: (isPlaying: boolean) => set((state) => ({ isPlaying })),
+      setVolume: (volume: number) => set((state) => ({ volume })),
+      reset: () => set((state) => ({ ...defaultInitState })),
     };
   });
 };
