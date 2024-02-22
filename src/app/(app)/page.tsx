@@ -1,6 +1,6 @@
 import React from "react";
 
-import SongsGrid from "@/components/app-view-grid/app-view-grid";
+import AppViewGrid from "@/components/app-view-grid/app-view-grid";
 import WelcomeMessage from "@/components/welcome-message";
 import LikedSongsLink from "@/components/liked-songs-link";
 
@@ -11,7 +11,7 @@ function HomePage() {
     <div className="flex-1 p-8 flex flex-col gap-4">
       <WelcomeMessage />
       <LikedSongsLink />
-      <SongsGrid fetch={() => getAllSongs()} />
+      <AppViewGrid fetch={() => getAllSongs()} />
     </div>
   );
 }

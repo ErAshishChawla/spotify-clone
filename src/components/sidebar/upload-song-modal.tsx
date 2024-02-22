@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 import {
   Modal,
@@ -16,25 +17,31 @@ import {
 } from "@nextui-org/react";
 import FormSubmitButton from "../form-submit-button";
 
-import { useUploadSongModalStore } from "@/stores/useUploadSongModalStore";
-
 import { uploadSong } from "@/actions/uploadSong";
 
-import { paths } from "@/paths";
-
 import { useUserStore } from "@/providers/user-store-provider";
+import { useUploadSongModalStore } from "@/stores/useUploadSongModalStore";
 
 export default function UploadSongModal() {
+  // Upload Modal Store to open and close the modal
   const uploadSongModalStore = useUploadSongModalStore();
-  const isLoggedIn = useUserStore((state) => state.isLoggedIn);
 
+  // User Store to check if user is logged in and access user data
+  const { isLoggedIn, userData } = useUserStore((state) => ({
+    isLoggedIn: state.isLoggedIn,
+    userData: state.userData,
+  }));
+
+  // Form state to handle the upload song form
   const [formState, uploadSongAction] = useFormState(uploadSong, {
     status: "idle",
     errors: {},
   });
 
+  // Router to refresh the page after song upload
   const router = useRouter();
 
+  // Check if user is not logged in and close the modal
   useEffect(() => {
     if (uploadSongModalStore.isOpen && !isLoggedIn) {
       toast.error("You must be logged in to upload a song.");
@@ -42,6 +49,7 @@ export default function UploadSongModal() {
     }
   }, [isLoggedIn, uploadSongModalStore.isOpen]);
 
+  // Check if the form state is success or error and show the toast message
   useEffect(() => {
     if (!uploadSongModalStore.isOpen) {
       return;
@@ -51,7 +59,8 @@ export default function UploadSongModal() {
       toast.success(formState.successMessage);
       setTimeout(() => {
         uploadSongModalStore.onClose();
-        router.refresh();
+        mutate(`user-songs/${userData?.id}`); // To update the user songs list
+        router.refresh(); // Refresh the page to show the new song as the action revalidates the current page
       }, 2000);
       formState.status = "idle";
       return;
@@ -59,9 +68,6 @@ export default function UploadSongModal() {
 
     if (formState.status === "error") {
       toast.error(formState.errors._form?.join(", "));
-      setTimeout(() => {
-        router.replace(paths.login());
-      }, 1000);
       formState.status = "idle";
       return;
     }

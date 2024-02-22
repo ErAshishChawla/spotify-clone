@@ -8,7 +8,7 @@ interface MediaRowItemWithLikeProps {
   song: Song;
 }
 
-async function MediaRowItemWithLike({ song }: MediaRowItemWithLikeProps) {
+function MediaRowItemWithLike({ song }: MediaRowItemWithLikeProps) {
   return (
     <div className="flex items-center gap-x-4 w-full">
       <div className="flex-1">
