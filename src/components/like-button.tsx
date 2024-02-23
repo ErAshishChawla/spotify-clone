@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
-import useSWR, { mutate } from "swr";
+import { nanoid } from "nanoid";
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
@@ -11,22 +11,22 @@ import FormSubmitButton from "@/components/form-submit-button";
 
 import { toggleSongLike } from "@/actions/userLoggedIn/toggleSongLike";
 import { useUserStore } from "@/providers/user-store-provider";
-import { getSongWithUserLike } from "@/actions/getSongWithUserLike";
+
+import { createClient } from "@/lib/supabase/client";
 
 import { Song } from "@/types/types";
-import { useRouter } from "next/navigation";
 
 interface LikeButtonProps {
   song: Song;
 }
 
 function LikeButton({ song }: LikeButtonProps) {
+  const { userData, isLoggedIn } = useUserStore((state) => ({
+    isLoggedIn: state.isLoggedIn,
+    userData: state.userData,
+  }));
+
   const [isLiked, setIsLiked] = useState(song.is_liked || false);
-  const isLoggedIn = useUserStore((state) => state.isLoggedIn);
-
-  const [isTouched, setIsTouched] = useState(false);
-
-  const router = useRouter();
 
   const [formState, toggleSongLikeAction] = useFormState(
     toggleSongLike.bind(null, song.id, isLiked),
@@ -35,26 +35,54 @@ function LikeButton({ song }: LikeButtonProps) {
     }
   );
 
-  const refetchLike = async () => {
-    if (!isLoggedIn) {
-      console.log("User is not logged in");
-      return;
-    }
+  const supabase = createClient();
 
-    console.log("refetching like");
+  useEffect(() => {
+    const channel = supabase
+      .channel(`realtime:like-button-${song.id}-${nanoid()}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "liked_songs",
+          filter: `user_id=eq.${userData?.id}`,
+        },
+        (payload) => {
+          if (
+            userData &&
+            payload.new.user_id === userData.id &&
+            payload.new.song_id === song.id
+          ) {
+            console.log("triggered");
+            setIsLiked(true);
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "liked_songs",
+          filter: `user_id=eq.${userData?.id}`,
+        },
+        (payload) => {
+          if (
+            userData &&
+            payload.old.user_id === userData.id &&
+            payload.old.song_id === song.id
+          ) {
+            setIsLiked(false);
+          }
+        }
+      )
+      .subscribe();
 
-    const songData = await getSongWithUserLike(song.id);
-
-    if (songData.status === "error" || !songData.data) {
-      setIsLiked((s) => !s);
-      return toast.error(songData.errorMessage);
-    }
-
-    setIsLiked(songData.data.is_liked || false);
-    return;
-  };
-
-  const res = useSWR(isTouched && `song-like/${song.id}`, refetchLike);
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [supabase, userData, song]);
 
   useEffect(() => {
     if (formState.status === "error") {
@@ -64,12 +92,9 @@ function LikeButton({ song }: LikeButtonProps) {
 
     if (formState.status === "success") {
       toast.success(formState.successMessage);
-      setIsTouched(true);
-      mutate(`song-like/${song.id}`);
-      router.refresh();
       formState.status = "idle";
     }
-  }, [formState, isLiked, router]);
+  }, [formState]);
 
   const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 

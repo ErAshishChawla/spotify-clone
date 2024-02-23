@@ -55,6 +55,7 @@ export async function toggleSongLike(
     ]);
 
     if (error) {
+      console.log(error);
       return {
         status: "error",
         errorMessage: "An error occurred while unliking the song",

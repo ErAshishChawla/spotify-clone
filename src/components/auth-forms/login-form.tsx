@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -55,6 +57,23 @@ function LoginForm() {
   };
 
   return (
+    // <Auth
+    //   supabaseClient={supabase}
+    //   providers={["github"]}
+    //   magicLink={true}
+    //   appearance={{
+    //     theme: ThemeSupa,
+    //     variables: {
+    //       default: {
+    //         colors: {
+    //           brand: "#404040",
+    //           brandAccent: "#22c55e",
+    //         },
+    //       },
+    //     },
+    //   }}
+    //   theme="dark"
+    // />
     <form
       className="w-full flex flex-col items-center gap-6"
       onSubmit={handleSubmit(onSubmit)}

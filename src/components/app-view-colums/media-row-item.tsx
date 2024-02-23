@@ -20,6 +20,7 @@ function MediaRowItem({ song }: MediaRowItemProps) {
           src={imagePublicUrl || "/images/liked.png"}
           alt="song image"
           className="object-cover"
+          sizes="100%"
         />
       </div>
       <div className="flex flex-col gap-y-1 overflow-hidden">

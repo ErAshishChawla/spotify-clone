@@ -100,11 +100,14 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       return;
     }
 
+    supabase.auth.stopAutoRefresh();
     authChange();
 
-    const { data: subscriptionObj } = supabase.auth.onAuthStateChange(() => {
-      authChange();
-    });
+    const { data: subscriptionObj } = supabase.auth.onAuthStateChange(
+      (event) => {
+        authChange();
+      }
+    );
 
     return () => {
       subscriptionObj.subscription.unsubscribe();

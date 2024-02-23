@@ -14,7 +14,6 @@ export const useConfigurePlayer = (songs: Song[]) => {
   const userData = useUserStore((state) => state.userData);
 
   const onSongPlay = (songId: string) => {
-    console.log("entered onSongPlay");
     if (!songId || !songs) {
       console.log("No song id or songs found");
       return playerActions.reset();

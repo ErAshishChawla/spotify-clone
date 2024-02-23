@@ -8,7 +8,7 @@ import { songUploadResponseType } from "@/types/form-types";
 import { uploadSongFormSchema } from "@/schemas/uploadSongFormSchema";
 import { revalidatePath } from "next/cache";
 
-import { Database } from "@/types/supabase";
+import { paths } from "@/paths";
 
 async function uploadSong(
   formState: songUploadResponseType,
@@ -90,8 +90,8 @@ async function uploadSong(
     };
   }
 
-  // revalidate paths for song load
-  revalidatePath("/");
+  // Revalidating Relevant Pathhs
+  revalidatePath(paths.home());
 
   return {
     status: "success",

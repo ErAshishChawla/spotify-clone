@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 
 import PlayButton from "@/components/app-view-grid/play-button";
 
 import { useGetImagePath } from "@/hooks/useGetImagePath";
+import { usePlayerStore } from "@/providers/player-provider";
 
 import { Song } from "@/types/types";
 
@@ -16,6 +17,8 @@ interface AppViewGridItemProps {
 
 function AppViewGridItem({ song, onClick }: AppViewGridItemProps) {
   const imagePublicUrl = useGetImagePath(song);
+  const activeSongId = usePlayerStore((state) => state.activeSongId);
+  const isPlaying = activeSongId === song.id;
 
   return (
     <div
@@ -28,6 +31,7 @@ function AppViewGridItem({ song, onClick }: AppViewGridItemProps) {
           src={imagePublicUrl || "/images/liked.png"}
           fill
           alt="song image"
+          sizes="100%"
         />
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
@@ -38,7 +42,7 @@ function AppViewGridItem({ song, onClick }: AppViewGridItemProps) {
       </div>
 
       <div className="absolute bottom-24 right-5">
-        <PlayButton />
+        <PlayButton isPlaying={isPlaying} />
       </div>
     </div>
   );

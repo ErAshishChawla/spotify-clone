@@ -59,9 +59,9 @@ export default function UploadSongModal() {
       toast.success(formState.successMessage);
       setTimeout(() => {
         uploadSongModalStore.onClose();
-        mutate(`user-songs/${userData?.id}`); // To update the user songs list
-        router.refresh(); // Refresh the page to show the new song as the action revalidates the current page
-      }, 2000);
+        // mutate(`user-songs/${userData?.id}`); // To update the user songs list
+        // router.refresh(); // Refresh the page to show the new song as the action revalidates the current page
+      }, 500);
       formState.status = "idle";
       return;
     }

@@ -1,62 +1,44 @@
-"use client";
-
 import React from "react";
-import useSWR from "swr";
+import { cookies } from "next/headers";
 
-import MediaRowItem from "@/components/app-view-colums/media-row-item";
+import { createClient } from "@/lib/supabase/server";
 
-import { useUserStore } from "@/providers/user-store-provider";
-import { getUserSongs } from "@/fetchers/getUserSongs";
-import MediaRowItemSkeleton from "../app-view-colums/media-row-item-skeleton";
+import RealtimeUserSongList from "@/components/sidebar/realtime-user-song-list";
+import { Song } from "@/types/types";
 
-function UserSongList() {
-  // Getting the user loggedin status and data
-  const user = useUserStore((state) => state);
-
-  // use useSWR to fetch user songs
-  const { isLoading, data, error } = useSWR(
-    user.isLoggedIn && user.userData && `user-songs/${user.userData.id}`,
-    () => {
-      if (!user.isLoggedIn || !user.userData || !user.userData.id) {
-        return null;
-      }
-
-      return getUserSongs(user.userData.id);
-    }
-  );
+async function UserSongList() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
 
   let content: React.ReactNode = null;
 
-  if (isLoading || user.isFetchingUser || user.isReset) {
-    content = Array(5)
-      .fill(0)
-      .map((_, i) => {
-        return <MediaRowItemSkeleton key={i} />;
-      });
-  } else {
-    if (!user.isLoggedIn) {
-      content = (
-        <div className="mt-4 text-neutral-400">You are not logged in</div>
-      );
-    }
+  const { data: userData, error: userError } = await supabase.auth.getUser();
 
-    if (error) {
-      content = (
-        <div className="mt-4 text-neutral-400">Error fetching user songs</div>
-      );
-    }
+  if (userError || !userData.user) {
+    content = (
+      <div className="mt-4 text-neutral-400">You are not logged in</div>
+    );
+  }
 
-    if (data && data.length === 0) {
-      content = (
-        <div className="mt-4 text-neutral-400">Your library is empty!</div>
-      );
-    }
+  const { data: userSongsData, error: userSongsError } = await supabase
+    .from("songs")
+    .select()
+    .eq("user_id", userData.user?.id);
 
-    if (data && data.length > 0) {
-      content = data.map((song) => {
-        return <MediaRowItem key={song.id} song={song} />;
-      });
-    }
+  if (userSongsError) {
+    content = (
+      <div className="mt-4 text-neutral-400">Error fetching user songs</div>
+    );
+  }
+
+  if (userSongsData && userSongsData.length === 0) {
+    content = (
+      <div className="mt-4 text-neutral-400">Your library is empty!</div>
+    );
+  }
+
+  if (userSongsData && userSongsData.length > 0) {
+    content = <RealtimeUserSongList songs={userSongsData as Song[]} />;
   }
 
   return content;

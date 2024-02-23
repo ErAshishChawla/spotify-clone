@@ -17,7 +17,8 @@ function LikedSongsLink() {
           src={"/images/liked.png"}
           alt="Heart icon"
           fill
-          className="object-cover "
+          className="object-cover"
+          sizes="100%"
         />
       </div>
       <p className="font-medium truncate py-5">Liked Songs</p>

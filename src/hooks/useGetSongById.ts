@@ -7,33 +7,32 @@ import { getSongWithUserLike } from "@/actions/getSongWithUserLike";
 import { Song } from "@/types/types";
 import { useUserStore } from "@/providers/user-store-provider";
 
-function useGetSongById(id?: string) {
+function useGetSongById(id?: string, userId?: string) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [song, setSong] = React.useState<Song | undefined>(undefined);
-
-  const userData = useUserStore((state) => state.userData);
+  const [song, setSong] = React.useState<Song | null>(null);
 
   const supabase = createClient();
 
   useEffect(() => {
-    if (!id) {
+    if (!id || !userId) {
       return;
     }
 
     setIsLoading(true);
 
     const fetchSong = async () => {
-      if (!userData) {
-        return toast.error("You must be logged in to play a song");
+      const { data: songData, error: songError } = await supabase
+        .rpc("get_all_songs_with_user_liked_status", {
+          input_user_id: userId || null,
+        })
+        .eq("id", id)
+        .single();
+
+      if (songError || !songData) {
+        return toast.error(songError?.message || "An error occurred");
       }
 
-      const songData = await getSongWithUserLike(id);
-
-      if (songData.status === "error" || !songData.data) {
-        return toast.error(songData.errorMessage);
-      }
-
-      setSong(songData.data);
+      setSong(songData as Song);
       setIsLoading(false);
     };
 
