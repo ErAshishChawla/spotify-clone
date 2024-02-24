@@ -47,7 +47,7 @@ export default function UploadSongModal() {
       toast.error("You must be logged in to upload a song.");
       uploadSongModalStore.onClose();
     }
-  }, [isLoggedIn, uploadSongModalStore.isOpen]);
+  }, [isLoggedIn, uploadSongModalStore]);
 
   // Check if the form state is success or error and show the toast message
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function UploadSongModal() {
       formState.status = "idle";
       return;
     }
-  }, [formState, router, uploadSongModalStore.isOpen]);
+  }, [formState, router, uploadSongModalStore]);
 
   return (
     <>

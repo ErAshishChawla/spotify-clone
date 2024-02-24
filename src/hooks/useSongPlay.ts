@@ -23,8 +23,8 @@ export const useOnPlay = (songs: Song[]) => {
       return router.replace("/login");
     }
 
-    player.setId(id);
-    player.setIds(songs.map((song) => song.id));
+    player.setActiveSongId(id);
+    player.setAllSongIds(songs.map((song) => song.id));
   };
 
   return onPlay;

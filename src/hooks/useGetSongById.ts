@@ -37,7 +37,7 @@ function useGetSongById(id?: string, userId?: string) {
     };
 
     fetchSong();
-  }, [id, supabase]);
+  }, [id, supabase, userId]);
 
   return useMemo(() => {
     return {

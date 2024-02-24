@@ -7,6 +7,7 @@ import {
   useRef,
   useContext,
   useEffect,
+  useCallback,
 } from "react";
 import { type StoreApi, useStore } from "zustand";
 
@@ -31,19 +32,19 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
     storeRef.current = createUserStore(initUserStore());
   }
 
-  const getUser = () => {
+  const getUser = useCallback(() => {
     return supabase.auth.getUser();
-  };
+  }, [supabase]);
 
-  const getSubscription = () => {
+  const getSubscription = useCallback(() => {
     return supabase
       .from("subscriptions")
       .select("*, prices(*, products(*))")
       .in("status", ["trialing", "active"])
       .single();
-  };
+  }, [supabase]);
 
-  function authChange() {
+  const authChange = useCallback(() => {
     if (!storeRef.current) {
       return;
     }
@@ -93,7 +94,7 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
         isReset: false,
       }));
     });
-  }
+  }, []);
 
   useEffect(() => {
     if (!storeRef.current) {
@@ -112,7 +113,7 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
     return () => {
       subscriptionObj.subscription.unsubscribe();
     };
-  }, []);
+  }, [authChange, supabase]);
 
   return (
     <UserStoreContext.Provider value={storeRef.current}>
