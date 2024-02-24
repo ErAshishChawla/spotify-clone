@@ -19,30 +19,31 @@ function Player() {
   }));
 
   const activeSongId = usePlayerStore((state) => state.activeSongId);
-
   const { song, isLoading } = useGetSongById(activeSongId, userData?.id);
-
   const songPublicPath = useGetSongPath(song!);
 
-  let content: React.ReactNode = null;
+  // Handle side effects like showing a toast in a useEffect
+  useEffect(() => {
+    if (!isLoggedIn && activeSongId) {
+      toast.error("You need to be logged in to play music");
+    }
+  }, [isLoggedIn, activeSongId]); // Dependencies ensure this runs only when isLoggedIn or activeSongId changes
 
-  if (!song || !activeSongId || !songPublicPath) {
+  if (!song || !activeSongId || !songPublicPath || !isLoggedIn) {
     return null;
-  } else if (!isLoggedIn) {
-    return toast.error("You need to be logged in to play music");
   } else if (isLoading || isFetchingUser) {
-    content = <Skeleton className="w-full h-[80px] rounded-full" />;
+    return <Skeleton className="w-full h-[80px] rounded-full" />;
   } else {
-    content = (
-      <PlayerContent
-        song={song}
-        key={songPublicPath}
-        songUrl={songPublicPath}
-      />
+    return (
+      <div className="bg-black pt-6 pb-2 px-4">
+        <PlayerContent
+          song={song}
+          key={songPublicPath}
+          songUrl={songPublicPath}
+        />
+      </div>
     );
   }
-
-  return <div className=" bg-black pt-6 pb-2 px-4 h-fit">{content}</div>;
 }
 
 export default Player;

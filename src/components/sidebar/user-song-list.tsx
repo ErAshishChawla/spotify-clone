@@ -18,27 +18,27 @@ async function UserSongList() {
     content = (
       <div className="mt-4 text-neutral-400">You are not logged in</div>
     );
-  }
+  } else {
+    const { data: userSongsData, error: userSongsError } = await supabase
+      .from("songs")
+      .select()
+      .eq("user_id", userData.user?.id);
 
-  const { data: userSongsData, error: userSongsError } = await supabase
-    .from("songs")
-    .select()
-    .eq("user_id", userData.user?.id);
+    if (userSongsError) {
+      content = (
+        <div className="mt-4 text-neutral-400">Error fetching user songs</div>
+      );
+    }
 
-  if (userSongsError) {
-    content = (
-      <div className="mt-4 text-neutral-400">Error fetching user songs</div>
-    );
-  }
+    if (userSongsData && userSongsData.length === 0) {
+      content = (
+        <div className="mt-4 text-neutral-400">Your library is empty!</div>
+      );
+    }
 
-  if (userSongsData && userSongsData.length === 0) {
-    content = (
-      <div className="mt-4 text-neutral-400">Your library is empty!</div>
-    );
-  }
-
-  if (userSongsData && userSongsData.length > 0) {
-    content = <RealtimeUserSongList songs={userSongsData as Song[]} />;
+    if (userSongsData && userSongsData.length > 0) {
+      content = <RealtimeUserSongList songs={userSongsData as Song[]} />;
+    }
   }
 
   return content;
