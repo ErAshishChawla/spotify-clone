@@ -6,13 +6,14 @@ import LikeButton from "@/components/like-button";
 
 interface MediaRowItemWithLikeProps {
   song: Song;
+  onClick?: () => void;
 }
 
-function MediaRowItemWithLike({ song }: MediaRowItemWithLikeProps) {
+function MediaRowItemWithLike({ song, onClick }: MediaRowItemWithLikeProps) {
   return (
     <div className="flex items-center gap-x-4 w-full">
       <div className="flex-1">
-        <MediaRowItem song={song} />
+        <MediaRowItem song={song} onClick={onClick} />
       </div>
       <LikeButton song={song} />
     </div>

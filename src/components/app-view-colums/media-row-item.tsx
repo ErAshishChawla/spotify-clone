@@ -7,13 +7,17 @@ import { Song } from "@/types/types";
 
 interface MediaRowItemProps {
   song: Song;
+  onClick?: () => void;
 }
 
-function MediaRowItem({ song }: MediaRowItemProps) {
+function MediaRowItem({ song, onClick }: MediaRowItemProps) {
   const imagePublicUrl = useGetImagePath(song);
 
   return (
-    <div className="flex items-center gap-x-3 cursor-pointer hover:bg-neutral-800/50 w-full p-2 rounded-md">
+    <div
+      className="flex items-center gap-x-3 cursor-pointer hover:bg-neutral-800/50 w-full p-2 rounded-md"
+      onClick={onClick}
+    >
       <div className="relative rounded-md min-h-[48px] min-w-[48px] overflow-hidden">
         <Image
           fill

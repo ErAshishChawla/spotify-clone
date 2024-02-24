@@ -31,7 +31,7 @@ function Player() {
   } else if (!isLoggedIn) {
     return toast.error("You need to be logged in to play music");
   } else if (isLoading || isFetchingUser) {
-    content = <Skeleton className="w-full h-full" />;
+    content = <Skeleton className="w-full h-[80px] rounded-full" />;
   } else {
     content = (
       <PlayerContent
