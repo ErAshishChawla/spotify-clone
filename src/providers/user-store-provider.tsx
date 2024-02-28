@@ -49,6 +49,9 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       return;
     }
 
+    supabase.auth.stopAutoRefresh();
+
+    // if (!storeRef.current.getState().isLoggedIn) {
     storeRef.current.setState({
       isFetchingUser: true,
       isReset: false,
@@ -57,6 +60,7 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       userData: undefined,
       subscriptionData: undefined,
     });
+    // }
 
     Promise.allSettled([
       getUser(),
@@ -101,11 +105,11 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
       return;
     }
 
-    supabase.auth.stopAutoRefresh();
     authChange();
 
     const { data: subscriptionObj } = supabase.auth.onAuthStateChange(
       (event) => {
+        console.log(event);
         authChange();
       }
     );
@@ -113,7 +117,7 @@ export const UserStoreProvider = ({ children }: UserStoreProviderProps) => {
     return () => {
       subscriptionObj.subscription.unsubscribe();
     };
-  }, [authChange, supabase]);
+  }, [authChange]);
 
   return (
     <UserStoreContext.Provider value={storeRef.current}>
